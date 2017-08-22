@@ -79,18 +79,22 @@ public class Sample14FlipboardView extends View {
         canvas.restore();
 
         // 第二遍绘制：下半部分
-        canvas.save();
 
         if (degree < 90) {
             canvas.clipRect(0, centerY, getWidth(), getHeight());
         } else {
             canvas.clipRect(0, 0, getWidth(), centerY);
         }
+//        5.0以下需要关闭硬件加速才有效果
         camera.save();
         camera.rotateX(degree);
+
+        canvas.save();
+
         canvas.translate(centerX, centerY);
         camera.applyToCanvas(canvas);
         canvas.translate(-centerX, -centerY);
+
         camera.restore();
 
         canvas.drawBitmap(bitmap, x, y, paint);

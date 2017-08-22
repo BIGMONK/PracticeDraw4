@@ -39,7 +39,7 @@ public class Sample02ClipPathView extends View {
         path1.addCircle(point1.x + 200, point1.y + 200, 150, Path.Direction.CW);
 
         path2.setFillType(Path.FillType.INVERSE_WINDING);
-        path2.addCircle(point2.x + 200, point2.y + 200, 150, Path.Direction.CW);
+        path2.addCircle(point2.x + 200, point2.y + 200, 150, Path.Direction.CCW);
     }
 
     @Override

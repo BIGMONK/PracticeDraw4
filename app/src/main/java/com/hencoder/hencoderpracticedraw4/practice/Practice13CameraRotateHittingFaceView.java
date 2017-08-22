@@ -12,12 +12,14 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 
 import com.hencoder.hencoderpracticedraw4.R;
 
 public class Practice13CameraRotateHittingFaceView extends View {
+    private static final String TAG = "Practice13CameraRotateH";
     Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     Bitmap bitmap;
     Point point = new Point(200, 50);
@@ -64,6 +66,8 @@ public class Practice13CameraRotateHittingFaceView extends View {
     @SuppressWarnings("unused")
     public void setDegree(int degree) {
         this.degree = degree;
+        Log.e(TAG, "onDraw: "+degree );
+
         invalidate();
     }
 

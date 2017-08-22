@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Camera;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -20,6 +21,8 @@ public class Practice14FlipboardView extends View {
     Bitmap bitmap;
     Camera camera = new Camera();
     int degree;
+    Matrix matrix = new Matrix();
+
     ObjectAnimator animator = ObjectAnimator.ofInt(this, "degree", 0, 180);
 
     public Practice14FlipboardView(Context context) {
@@ -73,13 +76,34 @@ public class Practice14FlipboardView extends View {
         int y = centerY - bitmapHeight / 2;
 
         canvas.save();
+        canvas.clipRect(0, 0, getWidth(), centerY);
+        canvas.drawBitmap(bitmap, x, y, paint);
+        canvas.restore();
 
+        // 第二遍绘制：下半部分
+
+        if (degree < 90) {
+            canvas.clipRect(0, centerY, getWidth(), getHeight());
+        } else {
+            canvas.clipRect(0, 0, getWidth(), centerY);
+        }
+
+//        对版本和硬件加速无要求
         camera.save();
         camera.rotateX(degree);
-        canvas.translate(centerX, centerY);
-        camera.applyToCanvas(canvas);
-        canvas.translate(-centerX, -centerY);
+
+        matrix.reset();
+        camera.getMatrix(matrix);
+
         camera.restore();
+
+        matrix.preTranslate(-centerX, -centerY);
+        matrix.postTranslate(centerX, centerY);
+
+        canvas.save();
+
+        canvas.concat(matrix);
+
 
         canvas.drawBitmap(bitmap, x, y, paint);
         canvas.restore();
